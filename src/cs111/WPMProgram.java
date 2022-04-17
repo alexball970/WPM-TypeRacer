@@ -1,5 +1,6 @@
 package cs111;
 
+import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.time.LocalTime;
 import java.util.*;
@@ -39,7 +40,8 @@ public class WPMProgram {
     }
 
     public static String getRandomLineFromTheFile() throws Exception {
-        File file = new File("/Users/alexandreballenghien/Documents/WPM-TypeRacer/src/words.txt");
+        File file = new File(
+                "/Users/alexandreballenghien/Documents/WPM-TypeRacer/src/words.txt");
         final RandomAccessFile f = new RandomAccessFile(file, "r");
         final long randomLocation = (long) (Math.random() * f.length());
         f.seek(randomLocation);
@@ -48,7 +50,6 @@ public class WPMProgram {
         f.close();
         return randomLine;
     }
-
 
     public static void getStringForRace(int amount, StringBuffer desiredMutableString) throws Exception {
         StringJoiner desiredStringJoiner = new StringJoiner(" ");
@@ -71,39 +72,33 @@ public class WPMProgram {
     }
 
     public static void getWPMByTime(String desiredString, long time) throws InterruptedException {
-        double start = LocalTime.now().toNanoOfDay() / 1000000000.0;
-        double end = start + time;
-        
         Scanner scan = new Scanner(System.in);
+        Thread.sleep(time * 1000);
+        System.out.println("Press enter");
         String typedWords = scan.nextLine();
-
         int numChars = typedWords.length();
-
         int wpm = (int) ((((double) numChars / 5) / (double) time) * 60);
-
         System.out.println("Your speed is " + wpm + " wpm");
-
+        if (typedWords.contains(desiredString)) {
+            System.out.println("Your speed is " + wpm + " wpm");
+        } else {
+            System.out.println("Damn boi you no good");
+        }
     }
 
     public static void getWPMByAmount(String desiredString) {
         Scanner scan = new Scanner(System.in);
         double start = LocalTime.now().toNanoOfDay();
-
         String typedWords = scan.nextLine();
-
         double end = LocalTime.now().toNanoOfDay();
-
         double elapsedTime = end - start;
         double seconds = elapsedTime / 1000000000.0;
         int numChars = typedWords.length();
-
-        int wpm = (int) ( ( ( (double) numChars / 5 ) / seconds ) * 60 );
-
+        int wpm = (int) ((((double) numChars / 5 ) / seconds ) * 60 );
         if (Objects.equals(typedWords, desiredString)) {
             System.out.println("Your speed is " + wpm + " wpm");
         } else {
             System.out.println("Bro, you dog shit");
         }
     }
-
 }
