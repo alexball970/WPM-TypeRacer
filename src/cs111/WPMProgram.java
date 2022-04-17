@@ -74,8 +74,8 @@ public class WPMProgram {
     public static void getWPMByTime(String desiredString, long time) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
         Thread.sleep(time * 1000);
-        System.out.println("Press enter");
         String typedWords = scan.nextLine();
+
         int numChars = typedWords.length();
         int wpm = (int) ((((double) numChars / 5) / (double) time) * 60);
         System.out.println("Your speed is " + wpm + " wpm");
