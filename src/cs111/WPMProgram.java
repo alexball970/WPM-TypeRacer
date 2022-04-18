@@ -1,36 +1,39 @@
 package cs111;
 
-import javax.sound.midi.Soundbank;
 import java.io.*;
+
 import java.time.LocalTime;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class WPMProgram {
-    public WPMProgram() { }
+
+    public WPMProgram() {
+    }
 
     public static void main(String[] args) throws Exception {
-        StringBuffer desiredMutableString = new StringBuffer("");
+        StringBuffer desiredMutableString = new StringBuffer();
         int amountOfTime;
         int amountOfWords;
         String TIME = "time";
         String AMOUNT = "amount";
 
-        System.out.println("Hi, welcome to type racer");
+        System.out.println("======== Welcome to type racer ========");
         TimeUnit.SECONDS.sleep(1);
-        System.out.println("-time- or -amount- ?");
+        System.out.println("========== -time- or -amount- =========");
         Scanner scannedCategory = new Scanner(System.in);
         String category = scannedCategory.nextLine();
 
         if (Objects.equals(TIME, category)) {
-            System.out.println("How much time do you want?");
+            System.out.println("===== How much time do you want? ======");
             Scanner scannedAmount = new Scanner(System.in);
             amountOfTime = scannedAmount.nextInt();
             sleep();
             getStringForRace(50, desiredMutableString);
             getWPMByTime(String.valueOf(desiredMutableString), amountOfTime);
-        } else if (Objects.equals(AMOUNT,category)) {
-            System.out.println("How many words do you want?");
+        } else if (Objects.equals(AMOUNT, category)) {
+            System.out.println("===== How many words do you want? =====");
             Scanner scannedAmount = new Scanner(System.in);
             amountOfWords = scannedAmount.nextInt();
             sleep();
@@ -78,11 +81,10 @@ public class WPMProgram {
 
         int numChars = typedWords.length();
         int wpm = (int) ((((double) numChars / 5) / (double) time) * 60);
-        System.out.println("Your speed is " + wpm + " wpm");
         if (typedWords.contains(desiredString)) {
             System.out.println("Your speed is " + wpm + " wpm");
         } else {
-            System.out.println("Damn boi you no good");
+            System.out.println("You made a mistake");
         }
     }
 
@@ -94,11 +96,12 @@ public class WPMProgram {
         double elapsedTime = end - start;
         double seconds = elapsedTime / 1000000000.0;
         int numChars = typedWords.length();
-        int wpm = (int) ((((double) numChars / 5 ) / seconds ) * 60 );
+        int wpm = (int) ((((double) numChars / 5) / seconds) * 60);
         if (Objects.equals(typedWords, desiredString)) {
             System.out.println("Your speed is " + wpm + " wpm");
         } else {
             System.out.println("Bro, you dog shit");
         }
     }
+
 }
