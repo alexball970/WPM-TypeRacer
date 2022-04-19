@@ -138,6 +138,8 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        desiredMutableString = new StringBuffer();
+        wordsToWrite.setText("");
         Scanner textScan = new Scanner(textField.getText());
         int amount = textScan.nextInt();
         try {
@@ -145,6 +147,7 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     public static String getRandomLineFromTheFile() throws Exception {
@@ -170,7 +173,6 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
     }
 
     public static void getWPMByAmount(String desiredString, double startTime, double endTime) {
-        System.out.println("startTime is " + startTime/ 1_000.0 + " and endTime is " + endTime/ 1_000.0);
         Scanner scan = new Scanner(type.getText());
         String typedWords = scan.nextLine();
         double elapsedTime = endTime - startTime;
@@ -199,5 +201,5 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
 
     }
-    
+
 }
