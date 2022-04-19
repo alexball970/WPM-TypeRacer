@@ -15,7 +15,8 @@ import javax.swing.*;
 
 public final class WPMProgramWithGUI implements ActionListener, KeyListener {
 
-    private static StringBuffer desiredMutableString = new StringBuffer();
+    private static StringBuffer desiredDisplayMutableString = new StringBuffer();
+    private static StringBuffer desiredToTypeMutableString = new StringBuffer();
     private static JTextField textField;
     private static JLabel wordsToWrite;
     private static JTextField type;
@@ -62,9 +63,10 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         panel.add(textField);
 
         wordsToWrite = new JLabel("");
-        wordsToWrite.setBounds(440,250,1000,70);
+        wordsToWrite.setBounds(0,260,1000,400);
         panel.add(wordsToWrite);
         wordsToWrite.setFont(f3);
+        wordsToWrite.setHorizontalAlignment(SwingConstants.CENTER);
 
         JButton start = new JButton("Start");
         start.setBounds(400,190,60,20);
@@ -76,25 +78,25 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         panel.add(countdown);
 
         JLabel typeHere = new JLabel("Type Here");
-        typeHere.setBounds(300,400,100,25);
+        typeHere.setBounds(300,600,100,25);
         panel.add(typeHere);
         typeHere.setFont(f1);
 
         JLabel yourWpm = new JLabel("Your WPM : ");
-        yourWpm.setBounds(350,500,400,25);
+        yourWpm.setBounds(350,700,400,25);
         yourWpm.setFont(f4);
         panel.add(yourWpm);
 
         wpm = new JLabel("");
-        wpm.setBounds(500, 500, 400, 25);
+        wpm.setBounds(510, 660, 1000, 100);
         panel.add(wpm);
         wpm.setFont(f4);
 
         type = new JTextField(20);
-        type.setBounds(400,400,300,25);
+        type.setBounds(400,600,300,25);
         panel.add(type);
         type.addActionListener(e -> {
-            String desired = String.valueOf(desiredMutableString);
+            String desired = String.valueOf(desiredToTypeMutableString);
             getWPMByAmount(desired, startTime, endTime);
 
         });
@@ -127,7 +129,8 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         resetButton.addActionListener(e -> {
             type.setText("");
             wordsToWrite.setText("");
-            desiredMutableString = new StringBuffer();
+            desiredDisplayMutableString = new StringBuffer();
+            desiredToTypeMutableString = new StringBuffer();
             wpm.setText("");
             first = true;
         });
@@ -138,12 +141,14 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        desiredMutableString = new StringBuffer();
+        desiredDisplayMutableString = new StringBuffer();
+        desiredToTypeMutableString = new StringBuffer();
+
         wordsToWrite.setText("");
         Scanner textScan = new Scanner(textField.getText());
         int amount = textScan.nextInt();
         try {
-            getStringForRace(amount, desiredMutableString);
+            getStringForRace(amount, desiredDisplayMutableString, desiredToTypeMutableString);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -162,14 +167,20 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         return randomLine;
     }
 
-    public static void getStringForRace(int amount, StringBuffer desiredMutableString) throws Exception {
-        StringJoiner desiredStringJoiner = new StringJoiner(" ");
+    public static void getStringForRace(int amount, StringBuffer desiredDisplayMutableString, StringBuffer desiredToTypeMutableString) throws Exception {
+        StringJoiner desiredToTypeStringJoiner = new StringJoiner(" ");
+        StringJoiner desiredDisplayStringJoiner = new StringJoiner(" ", "<html>","</html>");
         for (int i = 1; i <= amount; i++) {
             String line = getRandomLineFromTheFile();
-            desiredStringJoiner.add(line);
+            desiredDisplayStringJoiner.add(line);
+            desiredToTypeStringJoiner.add(line);
+            if ( (i % 10 ) == 0) {
+                desiredDisplayStringJoiner.add("<br/>");
+            }
         }
-        desiredMutableString.append(desiredStringJoiner);
-        wordsToWrite.setText(String.valueOf(desiredMutableString));
+        desiredDisplayMutableString.append(desiredDisplayStringJoiner);
+        desiredToTypeMutableString.append(desiredToTypeStringJoiner);
+        wordsToWrite.setText(String.valueOf(desiredDisplayMutableString));
     }
 
     public static void getWPMByAmount(String desiredString, double startTime, double endTime) {
@@ -183,7 +194,7 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         if (Objects.equals(typedWords, desiredString)) {
             wpm.setText(" " + foundWpm);
         } else {
-            wpm.setText("Either not finished typing or you made a mistake");
+            wpm.setText("<html>Either not finished <br/>typing or you made a mistake</html>");
         }
     }
 
