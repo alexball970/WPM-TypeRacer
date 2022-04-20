@@ -167,7 +167,10 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         return randomLine;
     }
 
-    public static void getStringForRace(int amount, StringBuffer desiredDisplayMutableString, StringBuffer desiredToTypeMutableString) throws Exception {
+    public static void getStringForRace(int amount,
+                                        StringBuffer desiredDisplayMutableString,
+                                        StringBuffer desiredToTypeMutableString)
+            throws Exception {
         StringJoiner desiredToTypeStringJoiner = new StringJoiner(" ");
         StringJoiner desiredDisplayStringJoiner = new StringJoiner(" ", "<html>","</html>");
         for (int i = 1; i <= amount; i++) {
@@ -183,7 +186,9 @@ public final class WPMProgramWithGUI implements ActionListener, KeyListener {
         wordsToWrite.setText(String.valueOf(desiredDisplayMutableString));
     }
 
-    public static void getWPMByAmount(String desiredString, double startTime, double endTime) {
+    public static void getWPMByAmount(String desiredString,
+                                      double startTime,
+                                      double endTime) {
         Scanner scan = new Scanner(type.getText());
         String typedWords = scan.nextLine();
         double elapsedTime = endTime - startTime;
